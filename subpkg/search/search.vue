@@ -20,7 +20,12 @@
 			</view>
 			<!-- 列表区域 -->
 			<view class="history-list">
-				<uni-tag :text="item" v-for="(item, i) in historys" :key="i" @click="gotoGoodsList(item)"></uni-tag>
+				<view class="history-item" v-for="(item, i) in historys" :key="i">
+					<uni-tag :text="item" @click="gotoGoodsList(item)" circle>
+					</uni-tag>
+					<uni-icons type="clear" size="18" class="clear-item" color="'#306ddd'"
+						@click="clearHistoryItem(item,i)"></uni-icons>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -76,7 +81,7 @@
 			},
 			saveSearchHistory() {
 				const set = new Set(this.historyList)
-				set.delete(this.keyword)
+				set.delete(this.keyword) //先把搜索的关键字删除了，再添加，避免关键字重复
 				set.add(this.keyword)
 				this.historyList = Array.from(set)
 				// 调用 uni.setStorageSync(key, value) 将搜索历史记录持久化存储到本地
@@ -92,6 +97,12 @@
 				uni.navigateTo({
 					url: '/subpkg/goods_list/goods_list?query=' + keyword
 				})
+			},
+			clearHistoryItem(item, i) {
+				let newArr = JSON.parse(JSON.stringify(this.historyList))
+				let newArr2 = newArr.reverse().splice(i, 1)
+				this.historyList = newArr.reverse()
+				uni.setStorageSync('keyword', JSON.stringify(this.historyList))
 			}
 		},
 		onLoad() {
@@ -147,9 +158,24 @@
 			display: flex;
 			flex-wrap: wrap;
 
+			.history-item {
+				position: relative;
+				margin-top: 20px;
+				margin-right: 10px;
+			}
+
 			.uni-tag {
-				margin-top: 5px;
-				margin-right: 5px;
+				background-color: #eaeaea;
+				color: #000000;
+				font-weight: 300;
+				border: 1px solid #eaeaea;
+			}
+
+			.clear-item {
+				position: absolute;
+				top: 0;
+				right: 0;
+				transform: translate(40%, -40%);
 			}
 		}
 	}
