@@ -4,6 +4,7 @@ import App from './App'
 import {
 	$http
 } from '@escook/request-miniprogram'
+import store from './store/store.js'
 
 Vue.config.productionTip = false
 
@@ -32,7 +33,8 @@ uni.$showMsg = function(title = '数据请求失败！', duration = 1500) {
 }
 
 const app = new Vue({
-	...App
+	...App,
+	store,
 })
 app.$mount()
 // #endif

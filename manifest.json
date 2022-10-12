@@ -55,7 +55,16 @@
 			"urlCheck": true,
 			"checkSiteMap": false
 		},
-		"usingComponents": true
+		"usingComponents": true,
+		"requiredPrivateInfos": [
+
+			//"getFuzzyLocation",
+
+			//"choosePoi",
+
+			"chooseAddress"
+
+		]
 	},
 	"vueVersion": "2"
 }
